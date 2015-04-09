@@ -1,0 +1,224 @@
+#nomination-nomination-form {
+    display: table-cell;
+    width: 550px;
+}
+
+#nomination-user-menu {
+    display: inline-block;
+    margin-top: 3em;
+    padding-right: 5px;
+    border: solid 1px #E3E3E3;
+    float: left;
+    margin-right: 2em;
+}
+
+#nomination-user-main {
+    display: table-cell;
+}
+
+.nq-container {
+    position: fixed;
+    right: 0px;
+    left: 0px;
+    top: 0px;
+}
+
+.nomination-notification {
+	padding: 0.33em;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.nq-extra {
+    float: right;
+    font-size:10px;
+    font-weight: lighter;
+}
+
+.nq-error {
+    border: solid 1px #FF0000;
+    background: #FFCCCC;
+}
+
+.nq-warning {
+	border: solid 1px #FFFF00;
+	background: #FFFFCC;
+}
+
+.nq-success {
+	border: solid 1px #00FF00;
+	background: #CCFFCC;
+}
+
+.nq-unknown {
+	border: solid 1px #0000FF;
+	background: #CCCCFF;
+}
+
+#nomination-main {
+    margin-top: 2em;
+}
+
+#nomination-userstatus {
+    text-align: right;
+    display: block;
+    height: 16px;
+}
+
+.login-icon {
+    height: 20px;
+    width: 20px;    
+}
+
+.missing-field {
+    border: solid 1px #FF0000;
+    background: #FFCCCC
+}
+
+th {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.nom-toggle-header {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.nom-toggle{
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.nom-toggle img {
+    width: 10px;
+    height: 10px;
+}
+
+.name-sort {
+    text-align: center;
+}
+
+.Complete {
+    color: #00DD00;
+    font-style: italic;
+}
+
+.Incomplete {
+    color: #DD0000;
+    font-style: italic;
+}
+
+.nom-manager {
+    cursor: pointer;
+}
+
+.nom-manager img {
+    width: 20px;
+    height: 20px;
+    margin-bottom: -6px;
+}
+
+.nom-manager #help-text {
+    font-weight: lighter;
+    font-size: 12px;
+}
+.req:after{
+    color: red;
+    font-size: 16pt;
+    content: "*";
+}
+
+.help-icon {
+    cursor: pointer;
+    width: 22px;
+    height: 22px;
+    margin-top: 11px;
+}
+
+.view-email {
+    cursor: pointer;
+    width: 25px;
+    heigth: 25px;
+}
+
+.resend-email {
+    cursor: pointer;
+    width: 25px;
+    heigth: 25px;
+}
+
+#pending-removal #nomination-view {
+    float: left;
+    margin-left: 10px;
+    padding-left: 10px;
+    border-left-color: #666666;
+    border-left-width: 1px;
+    border-left-style: solid;
+}
+
+.view-pending-nom {
+    cursor: pointer;
+}
+
+.actor-details .details {
+    border: solid 1px #AAAAAA;
+    background: #FFFFFF;
+    position: absolute;
+    margin-left: 10px;
+}
+
+.actor-details {
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+.center-cell {
+    text-align: center;
+}
+
+#nomination-list {
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.nomination {
+    border-left: dotted 1px #BBBBBB;
+    border-bottom: dotted 1px #BBBBBB;
+    border-right: dotted 1px #BBBBBB;
+    border-top: dotted 1px #BBBBBB;
+    display: inline-block;
+    margin-left: 5px;
+    padding-left: 20px;
+    margin-bottom: 30px;
+}
+
+.nomination li {
+    list-style: none;
+}
+
+#nomination-nomination-form #maintenance {
+    position: relative;
+    float: right;
+    right: -100px;
+    top: 10px;
+    text-align: right;
+    margin-top: 20px;
+    background: #F3F3F3;
+    padding: 1px;
+}
+
+.nominator, .reference, .nomination-state {
+    font-weight: bold;
+    display: inline;
+    font-size: 13px;
+}
+
+.tip {
+    position: absolute;
+    border: 1px solid #000000;
+    background: #EEEEEE;
+}

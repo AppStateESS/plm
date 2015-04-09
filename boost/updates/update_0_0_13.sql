@@ -1,0 +1,1 @@
+ALTER TABLE plm_nominee DROP COLUMN department;

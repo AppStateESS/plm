@@ -1,0 +1,1 @@
+<script type="text/javascript" src="{PHPWS_SOURCE_HTTP}mod/plm/javascript/search/search_reloader.js"></script>

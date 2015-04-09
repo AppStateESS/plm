@@ -1,0 +1,1 @@
+<script type="text/javascript" src="{PHPWS_SOURCE_HTTP}mod/nomination/javascript/doc/doc_selector.js"></script>

@@ -1,0 +1,57 @@
+Robert Bost <bostrt at tux dot appstate dot edu>
+Appalachian State University
+Electronic Student Services
+
+Menu is a menu making app for use with phpWebsite.  The goal is to have an simple way to create an embedded menu.  Tags 
+are used to identify menus and items.  Menus and items can be added to menus using the tags.
+Example:
+
+     $menu = new Menu('top_level', 'Menu');
+     $menu->addMenu('search', 'Search');
+     $menu->addMenuItem('name_search', 'Search Names', 'search');
+     $menu->addMenuItem('email_search', 'Search Emails', 'search');
+     $menu->addMenu('settings', 'Settings');
+     $menu->addMenu('email_settings', 'Email Settings', 'setttings');
+
+From the example you can see that the menu has gone three menus deep. It can go further but I don't wanna right now.
+
+TEMPLATES
+
+MenuItem
+--------------------
+A MenuItem will pass an array to PHPWS_Template::process 
+similar to this:
+
+Array {
+      TAG  => 'menu_item';
+      TEXT => 'This here is a menu item';
+}
+
+SubMenu
+-------------------
+A SubMenu will pass an array to PHPWS_Template::process
+similar to this:
+
+Array {
+      MENU_TAG   => 'submenu';
+      MENU_TEXT  => 'Settings and Configuration';
+      
+      menu_items => {
+			---More submenus or menuitems---
+      		    }
+      		 
+}
+
+Menu
+------------------
+The top level menu will pass an arry to PHPWS_Template::process
+similar to this:
+
+Array {
+      TOP_MENU_TAG   => 'top_menu';
+      TOP_MENU_TEXT  => 'Main Menu';
+
+      menu_items => {
+			---More submenus or menuitems---
+      		    }
+}

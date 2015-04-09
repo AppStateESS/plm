@@ -1,0 +1,2 @@
+ALTER TABLE plm_nominator CHANGE email email VARCHAR(64) NOT NULL;
+ALTER TABLE plm_nominee ADD COLUMN email VARCHAR(64) NOT NULL;

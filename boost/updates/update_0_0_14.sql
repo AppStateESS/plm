@@ -1,0 +1,1 @@
+ALTER TABLE plm_reference DROP COLUMN uploaded;

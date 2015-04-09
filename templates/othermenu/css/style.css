@@ -1,0 +1,19 @@
+.main-menu {
+    float: left;
+    margin-bottom: 10px;
+}
+
+.menu-title {
+    background-color: #EEEEEE;
+    border: 1px solid #C0C0C0;
+    text-align: center;
+    font-weight: bold;
+}
+
+.top-menu {
+    margin-bottom: 5px;
+}
+
+li {
+    list-style-type: none;
+}
