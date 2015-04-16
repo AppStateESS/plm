@@ -34,7 +34,7 @@ class EmailView extends PlemmView
         PHPWS_Core::initModClass('plm', 'EmailMessage.php');
 
         // Get DB and select where id = ...
-        $db = EmailMessage::getDb();
+        $db = new PHPWS_DB('plm_email_log');
 
         $db->addWhere('id', $context['id']);
         $db->addColumn('message');

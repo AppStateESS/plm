@@ -1,5 +1,5 @@
     <script type="text/javascript">
-    $(document).ready(function(){
+    $().ready(function(){
         $('.view-email').click(function(){
             $.get('index.php', {'module':'plm', 'view':'EmailView', 'id':this.id, 'ajax':true},
                   function(data){

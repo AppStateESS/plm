@@ -26,7 +26,7 @@ class EmailMessage extends PLM_Model
         $id = $actor->getId();
         $type = PLM_Email::getAbbrevName(get_class($actor));
 
-        $db = self::getDb();
+        $db = new PHPWS_DB('plm_email_log');
         $db->addWhere('receiver_type', $type);
         $db->addWhere('receiver_id', $id);
         
