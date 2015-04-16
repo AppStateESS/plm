@@ -1,21 +1,23 @@
 <?xml version="1.0"?>
 <dependency>
-    <module>
-        <title>othermenu</title>
-        <properName>Other Menu</properName>
-        <version>0.0.4</version>
-        <url>http://github.com/bostrt/othermenu/</url>
-    </module>
-    <module>
-        <title>pulse</title>
-        <properName>Pulse</properName>
-        <version>1.9.1</version>
-        <url>http://phpwebsite.appstate.edu/downloads/modules/pulse/</url>
-    </module>
-    <module>
-        <title>notification</title>
-        <properName>Notification</properName>
-        <version>0.0.1</version>
-        <url>http://phpwebsite.appstate.edu/downloads/modules/notification/</url>
-    </module>
+  <module>
+    <title>othermenu</title>
+    <properName>Other Menu</properName>
+    <version>0.0.4</version>
+    <url>http://github.com/bostrt/othermenu/</url>
+  </module>
+</dependency>
+<dependency>
+	<module>
+		<title>pulse</title>
+		<properName>Pulse</properName>
+		<version>1.9.1</version>
+		<url>http://phpwebsite.appstate.edu/downloads/modules/pulse/</url>
+	</module>
+	<module>
+		<title>notification</title>
+		<properName>Notification</properName>
+		<version>0.0.1</version>
+		<url>http://phpwebsite.appstate.edu/downloads/modules/notification/</url>
+	</module>
 </dependency>

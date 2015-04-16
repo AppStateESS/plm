@@ -1,7 +1,7 @@
 <?php
 
-PHPWS_Core::initModClass('plm', 'NominationMod.php');
-PHPWS_Core::initModClass('plm', 'ViewFactory.php');
+PHPWS_Core::initModClass('nomination', 'NominationMod.php');
+PHPWS_Core::initModClass('nomination', 'ViewFactory.php');
 
 class GuestNomination extends NominationMod
 {

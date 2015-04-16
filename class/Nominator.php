@@ -1,21 +1,16 @@
 <?php
 
   /**
-   * Nominator
-   *
+   * Nominator 
+   * 
    * Represents a nominator for a nomination.
    *
-   * Deprecated - Functionality was rolled into the Nomination class.
-   *
    * @author Robert Bost <bostrt at tux dot appstate dot edu>
-   * @deprecated
-   * @see Nomination
    */
 
 PHPWS_Core::initModClass('plm', 'NominationActor.php');
 PHPWS_Core::initModClass('plm', 'ViewFactory.php');
 
-//define('NOMINATOR_TABLE', 'plm_nominator');
 define('NOMINATOR_TABLE', 'plm_nominator');
 
 class Nominator extends NominationActor
@@ -24,20 +19,20 @@ class Nominator extends NominationActor
     public $address;
     public $unique_id;
     public $doc_id;
-
-    // Inherited from Nomination_Model
+    
+    // Inherited from PLM_Model
     public function getDb()
     {
         return new PHPWS_DB(NOMINATOR_TABLE);
     }
 
     /**
-     * Add a new nominator to nomination_nominator table
+     * Add a new nominator to plm_nominator table
      *
      * @param *_name - nominator's name
      * @param email - Email address must be from *.appstate.edu
      * @param phone - This is a free-style string yet again.
-     * @param address - Address is free-style until we know if only ASUBox
+     * @param address - Address is free-style until we know if only ASUBox 
      *                  is wanted.
      *
      */
@@ -67,7 +62,7 @@ class Nominator extends NominationActor
 
         // Create a new nominator
         $nominator = new Nominator();
-
+            
         $nominator->first_name = $first_name;
         $nominator->middle_name = $middle_name;
         $nominator->last_name = $last_name;
@@ -78,7 +73,7 @@ class Nominator extends NominationActor
         $nominator->unique_id = self::generateUniqueId($nominator->getEmail());
 
         $result = $nominator->save();
-
+            
         return $result;
     }
 
@@ -88,11 +83,11 @@ class Nominator extends NominationActor
     public function getPhone(){
         return $this->phone;
     }
-
+    
     public function getAddress(){
         return $this->address;
     }
-
+    
     public function getUniqueId(){
         return $this->unique_id;
     }
@@ -103,7 +98,7 @@ class Nominator extends NominationActor
     public function setEmail($email){
         $this->email = $email;
     }
-
+    
     public function setPhone($phone){
         $this->phone = $phone;
     }
@@ -137,12 +132,12 @@ class Nominator extends NominationActor
     public function getEditLink()
     {
         $unique_id = $this->getUniqueId();
-
+        
         $host = $_SERVER['HTTP_HOST'];
-        $extra = $_SERVER['PHP_SELF'].'?module=nomination&view=NominationForm&unique_id='.$unique_id;
-
+        $extra = $_SERVER['PHP_SELF'].'?module=plm&view=NominationForm&unique_id='.$unique_id;
+        
         $link = 'http://'.$host.$extra;
-
+        
         return $link;
     }
 
@@ -165,9 +160,9 @@ class Nominator extends NominationActor
     }
 
     /**
-     * Get the date of submission for a nomination that
+     * Get the date of submission for a nomination that 
      * the nominator submitted
-     * @return - Unix time stamp
+     * @return - Unix time stamp 
      */
     public function getSubmissionDate()
     {
@@ -191,11 +186,10 @@ class Nominator extends NominationActor
      */
     public function getNomination()
     {
-        require_once PHPWS_SOURCE_DIR . 'mod/plm/class/exception/DatabaseException.php';
         $db = new PHPWS_DB('plm_nomination');
-        //$db->addWhere('nominator_id', $this->id);
         $db->addWhere('nominator_id', $this->id);
         $result = $db->getObjects('Nomination');
+
         // Check for DB Error
         if(PHPWS_Error::logIfError($result)){
             throw new DatabaseException('Database is broken: '.$result->toString());

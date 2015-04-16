@@ -106,7 +106,7 @@ class PLM_Email {
         PHPWS_Core::initModClass('plm', 'Reference.php');
         PHPWS_Core::initModClass('plm', 'EmailMessage.php');
 
-        $now = mktime();
+        $now = time();
 
         foreach($email->list as $recipient){
             $class_name = get_class($recipient);

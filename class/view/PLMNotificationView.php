@@ -22,7 +22,7 @@ class PLMNotificationView
         $this->notifications = NQ::popAll('plm');
     }
 
-    public function immediateError($message)
+    public static function immediateError($message)
     {
         NQ::simple('plm', PLM_ERROR, $message);
         NQ::close();

@@ -13,9 +13,11 @@ abstract class PLM_Model
 {
     public $id;
 
+    abstract function getDb();
+
     public function __construct($id = 0)
     {
-        if(!empty($id) && is_numeric($id)){
+        if(!is_null($id) && is_numeric($id)){
             $this->id = $id;
             
             $result = $this->load();

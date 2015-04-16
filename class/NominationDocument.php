@@ -11,11 +11,11 @@
  * @package nomination
  */
 
-PHPWS_Core::initModClass('plm', 'Nomination.php');
-PHPWS_Core::initModClass('plm', 'Nominator.php');
-PHPWS_Core::initModClass('plm', 'Reference.php');
+PHPWS_Core::initModClass('nomination', 'Nomination.php');
+PHPWS_Core::initModClass('nomination', 'Nominator.php');
+PHPWS_Core::initModClass('nomination', 'Reference.php');
 
-PHPWS_Core::initModClass('plm', 'exception/IllegalFileException.php');
+PHPWS_Core::initModClass('nomination', 'exception/IllegalFileException.php');
 
 class NominationDocument {
 
@@ -69,7 +69,7 @@ class NominationDocument {
 
 
         // Get the allowed types from Settings
-        $this->allowedTypes = PHPWS_Settings::get('plm', 'allowed_file_types');
+        $this->allowedTypes = PHPWS_Settings::get('nomination', 'allowed_file_types');
 
         // Grab the actual file data and put it in the correct location
         $this->receiveFile();
@@ -89,7 +89,7 @@ class NominationDocument {
         // Check the file extension
         $fileExt  = self::getFileExtension($this->origFileName);
         if(is_null($fileExt)){
-            PHPWS_Core::initModClass('plm', 'exception/IllegalFileException.php');
+            PHPWS_Core::initModClass('nomination', 'exception/IllegalFileException.php');
             throw new IllegalFileException('File has an invalid extension');
         }
 
@@ -122,7 +122,7 @@ class NominationDocument {
 
         // Move the file from it's tmp location to it's final resting place
         if(!move_uploaded_file($this->fileUploadInfo['tmp_name'], $fullPath)){
-            PHPWS_Core::initModClass('plm', 'exception/FileException.php');
+            PHPWS_Core::initModClass('nomination', 'exception/FileException.php');
             throw new FileException('Could not save file!');
         }
     }
@@ -180,7 +180,7 @@ class NominationDocument {
     }
     
     public function setNominationById($id) {
-        PHPWS_Core::initModClass('plm', 'NominationFactory.php');
+        PHPWS_Core::initModClass('nomination', 'NominationFactory.php');
         $nom = new NominationFactory();
         $this->nomination = $nom->getNominationbyId($id);
     }
@@ -253,7 +253,7 @@ class NominationDocument {
      */
     public static function getBasePath()
     {
-        return  PHPWS_Settings::get('plm', 'file_dir');
+        return  PHPWS_Settings::get('nomination', 'file_dir');
     }
 
     /**
@@ -302,7 +302,7 @@ class NominationDocument {
             throw new Exception('No such file!');
         }
 
-        $db = new PHPWS_DB('plm_document');
+        $db = new PHPWS_DB('nomination_document');
         $db->addWhere('id', $id);
         $result = $db->select('row');
 
@@ -312,7 +312,7 @@ class NominationDocument {
         
         header('Content-type: ' . $result['mime_type']);
         header('Content-Disposition: attachment; filename="' . $result['file_name'] . '"');
-        $fullPath = PHPWS_Settings::get('plm', 'file_dir') . $result['file_path'] . $result['file_name'];
+        $fullPath = PHPWS_Settings::get('nomination', 'file_dir') . $result['file_path'] . $result['file_name'];
         readfile($fullPath);
         exit;
     }
@@ -334,7 +334,7 @@ class NominationDocument {
             throw new Exception('No such file!');
         }
 
-        $db = new PHPWS_DB('plm_document');
+        $db = new PHPWS_DB('nomination_document');
         $db->addWhere('id', $person->doc_id);
         $result = $db->select('row');
 
@@ -416,7 +416,7 @@ class NominationDocument {
     public static function getSupportedFileTypes()
     {
         $fileNames = self::$fileNames;
-        $supported = PHPWS_Settings::get('plm', 'allowed_file_types');
+        $supported = PHPWS_Settings::get('nomination', 'allowed_file_types');
         $supported = unserialize($supported);
         $types = array();
         foreach($supported as $fileType){
@@ -439,15 +439,15 @@ class NominationDocument {
     }
 
     public static function delete($unique_id){
-        PHPWS_Core::initModClass('plm', 'Nomination.php');
+        PHPWS_Core::initModClass('nomination', 'Nomination.php');
         $person = Nomination::getMember($unique_id);
 
-        $db = new PHPWS_DB('plm_document');
+        $db = new PHPWS_DB('nomination_document');
         $db->addWhere('id', $person->doc_id);
         $result = $db->select('row');
 
         if(PHPWS_Error::logIfError($result)){
-            PHPWS_Core::initModClass('plm', 'exception/DatabaseException.php');
+            PHPWS_Core::initModClass('nomination', 'exception/DatabaseException.php');
             throw new DatabaseException($result->toString());
         }
 

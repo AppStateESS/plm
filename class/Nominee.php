@@ -6,15 +6,6 @@ PHPWS_Core::initModClass('plm', 'Period.php');
 
 define('NOMINEE_TABLE', 'plm_nominee');
 
-/**
- * Nominee class
- *
- * Deprecated - Functionality rolled into the Nomination class.
- *
- * @package nomination
- * @deprecated
- * @see Nomination
- */
 class Nominee extends NominationActor
 {
     public $position;
@@ -28,7 +19,7 @@ class Nominee extends NominationActor
 
 
     /**
-     * Add a new nominee to nomination_nominee table if it does not exist
+     * Add a new nominee to plm_nominee table if it does not exist
      *
      * @param *_name - nominee's name
      * @param email - Email address may come in with just username or
@@ -38,7 +29,7 @@ class Nominee extends NominationActor
      * @param years - Number of years nominee has been at ASU
      *
      * TODO: Check about what exact data and format is needed.
-     *
+     *                
      */
     public static function addNominee($first_name, $middle_name="", $last_name, $email, $position,
                                       $department_major, $years)
@@ -60,7 +51,7 @@ class Nominee extends NominationActor
             return false;
         } else {
             $nominee = new Nominee();
-
+            
             $nominee->first_name = $first_name;
             $nominee->middle_name = $middle_name;
             $nominee->last_name = $last_name;
@@ -68,7 +59,7 @@ class Nominee extends NominationActor
             $nominee->position = $position;
             $nominee->major = $department_major;
             $nominee->years = $years;
-
+            
             $result = $nominee->save();
 
             return $result;
@@ -76,7 +67,7 @@ class Nominee extends NominationActor
         return null;
     }
 
-
+    
 
     /**
      * Getters...
@@ -124,12 +115,12 @@ class Nominee extends NominationActor
 
     /**
      * Get the count of nomination for this nominee
-     */
+     */ 
     public function getNominationCount()
     {
         PHPWS_Core::initModClass('plm', 'Nomination.php');
 
-        $db = Nomination::getDb();
+        $db = new PHPWS_DB('plm_nomination');
         $db->addWhere('nominee_id', $this->id);
         return $db->count();
     }
@@ -139,10 +130,10 @@ class Nominee extends NominationActor
      */
     public static function existsByEmail($email)
     {
-        $db = Nominee::getDb();
+        $db = new PHPWS_DB('plm_nominee');
 
         $db->addJoin('left', 'plm_nominee', 'plm_nomination', 'id', 'nominee_id');
-
+        
         $db->addWhere('email', $email, '=', 'AND');
         $db->addWhere('plm_nomination.period', Period::getCurrentPeriodYear());
 
@@ -162,12 +153,12 @@ class Nominee extends NominationActor
      */
     public static function getNomineeByEmail($email)
     {
-        $db = Nominee::getDb();
+        $db = new PHPWS_DB('plm_nominee');
         $db->addWhere('email', $email);
         $result = $db->select();
 
         $nominee = new Nominee($result[0]['id']);
-
+        
         return $nominee;
     }
 }

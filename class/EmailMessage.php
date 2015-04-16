@@ -1,11 +1,11 @@
 <?php
 
-PHPWS_Core::initModClass('plm', 'Nomination_Model.php');
+PHPWS_Core::initModClass('plm', 'PLM_Model.php');
 
 // DB Table
 define('EMAIL_MESSAGE_TABLE', 'plm_email_log');
 
-class EmailMessage extends Nomination_Model
+class EmailMessage extends PLM_Model
 {
     public $nominee_id;
     public $message;
@@ -14,7 +14,7 @@ class EmailMessage extends Nomination_Model
     public $receiver_id;
     public $receiver_type;
     public $sent_on;
-
+    
     public function getDb()
     {
         return new PHPWS_DB(EMAIL_MESSAGE_TABLE);
@@ -24,12 +24,12 @@ class EmailMessage extends Nomination_Model
     public static function deleteMessages(NominationActor $actor)
     {
         $id = $actor->getId();
-        $type = Nomination_Email::getAbbrevName(get_class($actor));
+        $type = PLM_Email::getAbbrevName(get_class($actor));
 
         $db = self::getDb();
         $db->addWhere('receiver_type', $type);
         $db->addWhere('receiver_id', $id);
-
+        
         $db->delete();
     }
 
@@ -37,11 +37,11 @@ class EmailMessage extends Nomination_Model
     public function rowTags()
     {
         PHPWS_Core::initModClass('plm', 'Nominee.php');
-
-        $tpl      = array();
+        
+        $tpl      = array();        
         $nominee  = new Nominee($this->nominee_id);
 
-        PHPWS_Core::initModClass('plm', 'NominationEmail.php');
+        PHPWS_Core::initModClass('plm', 'PLM_Email.php');
         $recvr;
         $recvr_type;
 
@@ -56,23 +56,23 @@ class EmailMessage extends Nomination_Model
             PHPWS_Core::initModClass('plm', 'Nominator.php');
             $recvr = new Nominator($this->receiver_id);
             $recvr_type = 'Nominator';
-        }
+        } 
         // Receiver is Nominee
         else if($this->receiver_type == SHORT_Nominee){
             PHPWS_Core::initModClass('plm', 'Nominee.php');
             $recvr = new Nominee($this->receiver_id);
             $recvr_type = 'Nominee';
-        }
-
+        } 
+        
         $tpl['RECEIVER']     = $recvr->getLink();
         $tpl['RECEIVER_TYPE']= $recvr_type;
         $tpl['RECEIVER_TYPE_ABBREV'] = $this->receiver_type;
-        $tpl['MESSAGE_TYPE'] = Nomination_Email::getLongMessageType($this->message_type);
+        $tpl['MESSAGE_TYPE'] = PLM_Email::getLongMessageType($this->message_type);
         $tpl['SENT_ON']      = strftime("%m/%d/%Y %r", $this->sent_on);
 
         $tpl['NOMINEE'] = $nominee->getLink();
-        $tpl['ACTION']  = PHPWS_SOURCE_HTTP.'mod/nomination/img/tango/actions/system-search.png';
-        $tpl['RESEND']  = PHPWS_SOURCE_HTTP.'mod/nomination/img/tango/actions/mail-resend.png';
+        $tpl['ACTION']  = PHPWS_SOURCE_HTTP.'mod/plm/img/tango/actions/system-search.png';
+        $tpl['RESEND']  = PHPWS_SOURCE_HTTP.'mod/plm/img/tango/actions/mail-resend.png';
         $tpl['ID']      = $this->id;
 
         return $tpl;

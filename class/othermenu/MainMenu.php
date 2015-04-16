@@ -1,6 +1,6 @@
 <?php
 
-PHPWS_Core::initModClass('plm', 'othermenu/OtherMenu.php');
+PHPWS_Core::initModClass('nomination', 'othermenu/OtherMenu.php');
 
 class MainMenu extends OtherMenu
 {

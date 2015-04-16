@@ -1,7 +1,7 @@
 <?php
 
-PHPWS_Core::initModClass('plm', 'Nomination.php');
-PHPWS_Core::initModClass('plm', 'ViewFactory.php');
+PHPWS_Core::initModClass('nomination', 'Nomination.php');
+PHPWS_Core::initModClass('nomination', 'ViewFactory.php');
 
 class CommitteeNomination extends Nomination
 {

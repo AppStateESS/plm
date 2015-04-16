@@ -70,15 +70,12 @@ abstract class PLM
         $view = isset($this->context['view']) ? $this->context['view'] : $this->defaultView;
 
         // Get view from factory and show it
-        //try{
+        try{
             $theView = $vFactory->get($view);
             $this->content = $theView->display($this->context);
-            /*
         } catch (Exception $e){
             PLMNotificationView::immediateError($e->getMessage());
         }
-             * 
-             */
     }
 }
 

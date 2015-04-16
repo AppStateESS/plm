@@ -43,7 +43,7 @@ abstract class Nomination_Model
         $db->addWhere('id', $this->id);
         $result = $db->loadObject($this);
         if(PHPWS_Error::logIfError($result)){
-            PHPWS_Core::initModClass('plm', 'exception/DatabaseException.php');
+            PHPWS_Core::initModClass('nomination', 'exception/DatabaseException.php');
             throw new DatabaseException($result->toString());
         }
         
@@ -56,7 +56,7 @@ abstract class Nomination_Model
         $result = $db->saveObject($this);
 
         if(PHPWS_Error::logIfError($result)){
-            PHPWS_Core::initModClass('plm', 'exception/DatabaseException.php');
+            PHPWS_Core::initModClass('nomination', 'exception/DatabaseException.php');
             throw new DatabaseException($result->toString());
         }
 

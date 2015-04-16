@@ -31,7 +31,7 @@ class NominationFieldVisibility
                 continue;
             }
             // Otherwise, go to settings.
-            if(PHPWS_Settings::get('plm', 'field_' . $field) == 1) {
+            if(PHPWS_Settings::get('nomination', 'field_' . $field) == 1) {
                 $vis[] = $field;
             }
         }
@@ -83,12 +83,12 @@ class NominationFieldVisibility
     {
         // Mark all fields hidden first
         foreach($this->fields as $field) {
-            PHPWS_Settings::set('plm', 'field_' . $field, 0);
+            PHPWS_Settings::set('nomination', 'field_' . $field, 0);
         }
 
         // Now mark them shown if they show up on the request
         foreach($context[$name] as $value) {
-            PHPWS_Settings::set('plm', 'field_' . $value, 1);
+            PHPWS_Settings::set('nomination', 'field_' . $value, 1);
         }
 
         PHPWS_Settings::save('nomination');

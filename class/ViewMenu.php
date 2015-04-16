@@ -15,7 +15,7 @@ abstract class ViewMenu extends PlemmView
         $this->addView($text, $viewObj);
     }
 
-    public function addView($text, $view)
+    public function addView($text, PlemmView $view)
     {
         $this->views[] = $view->getLink($text);
     }

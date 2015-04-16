@@ -77,7 +77,7 @@ class Rollover extends Command
         // Add new pulse
         PHPWS_Core::initModClass('plm', 'PLMRolloverEmailPulse.php');
         $pulse = new PLMRolloverEmailPulse();
-        $timeDiff = mktime() - $newPeriod->getEndDate();
+        $timeDiff = time() - $newPeriod->getEndDate();
         $pulse->newFromNow($timeDiff);
 
 

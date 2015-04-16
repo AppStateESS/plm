@@ -1,6 +1,6 @@
 <?php
 
-PHPWS_Core::initModClass('plm', 'Nomination.php');
+PHPWS_Core::initModClass('nomination', 'Nomination.php');
 
 /**
  * NominationFactory - Static methods for loading a nomination object
@@ -23,13 +23,13 @@ class NominationFactory {
             throw new InvalidArgumentException('Missing id.');
         }
 
-        $db = new PHPWS_DB('plm_nomination');
+        $db = new PHPWS_DB('nomination_nomination');
         $db->addWhere('id', $id);
 
         $result = $db->select('row');
 
         if(PHPWS_Error::logIfError($result)){
-            PHPWS_Core::initModClass('plm', 'exception/DatabaseException.php');
+            PHPWS_Core::initModClass('nomination', 'exception/DatabaseException.php');
             throw new DatabaseException($result->toString());
         }
 
@@ -73,7 +73,7 @@ class NominationFactory {
 
     public static function save(Nomination $nom)
     {
-        $db = new PHPWS_DB('plm_nomination');
+        $db = new PHPWS_DB('nomination_nomination');
 
         $db->addValue('banner_id', $nom->getBannerId());
         $db->addValue('first_name', $nom->getFirstName());
@@ -133,10 +133,10 @@ class NominationFactory {
      * @return array - Return an array representation of a Nomination
      */
     public static function getByNominatorUniqueId($unique_id){
-        $db = Nomination::getDb();
+        $db = new PHPWS_DB('plm_nomination');
 
-        $db->addJoin('left', 'plm_nomination', 'plm_nominator', 'nominator_id', 'id');
-        $db->addWhere('plm_nominator.unique_id', $unique_id);
+        $db->addJoin('left', 'nomination_nomination', 'nomination_nominator', 'nominator_id', 'id');
+        $db->addWhere('nomination_nominator.unique_id', $unique_id);
 
         $results = $db->select('row');
 
@@ -144,7 +144,7 @@ class NominationFactory {
             throw new DatabaseException('No results');
         }
 
-        $db = new PHPWS_DB('plm_nominee');
+        $db = new PHPWS_DB('nomination_nominee');
         $db->addWhere('id', $results);
         $nominee = $db->select('row');
 
@@ -156,7 +156,7 @@ class NominationFactory {
             $results['nominee_'.$key] = $nominee_field;
         }
 
-        $db = new PHPWS_DB('plm_reference');
+        $db = new PHPWS_DB('nomination_reference');
         $db->addWhere('id', $results['reference_id_1'], NULL, 'or');
         $db->addWhere('id', $results['reference_id_2'], NULL, 'or');
         $db->addWhere('id', $results['reference_id_3'], NULL, 'or');
@@ -178,7 +178,7 @@ class NominationFactory {
             }
         }
 
-        $db = new PHPWS_DB('plm_nominator');
+        $db = new PHPWS_DB('nomination_nominator');
         $db->addWhere('id', $results['nominator_id']);
 
         $nominator = $db->select('row');
@@ -202,12 +202,12 @@ class NominationFactory {
      */
     public static function getByReferenceUniqueId($unique_id)
     {
-        $db = self::getDb();
-        $db->addTable('plm_reference');
-        $db->addWhere('reference_id_1', 'plm_reference.id', NULL, 'or', 'ref');
-        $db->addWhere('reference_id_2', 'plm_reference.id', NULL, 'or', 'ref');
-        $db->addWhere('reference_id_3', 'plm_reference.id', NULL, 'or', 'ref');
-        $db->addWhere('plm_reference.unique_id', $unique_id);
+        $db = new PHPWS_DB('plm_nomination');
+        $db->addTable('nomination_reference');
+        $db->addWhere('reference_id_1', 'nomination_reference.id', NULL, 'or', 'ref');
+        $db->addWhere('reference_id_2', 'nomination_reference.id', NULL, 'or', 'ref');
+        $db->addWhere('reference_id_3', 'nomination_reference.id', NULL, 'or', 'ref');
+        $db->addWhere('nomination_reference.unique_id', $unique_id);
         $result = $db->getObjects('Nomination');
 
         if(PHPWS_Error::logIfError($result) || sizeof($result) > 1 || sizeof($result) == 0){
@@ -226,7 +226,7 @@ class NominationFactory {
      */
     public static function getNonWinningNominations()
     {
-        $currPeriod = PHPWS_Settings::get('plm', 'current_period');
+        $currPeriod = PHPWS_Settings::get('nomination', 'current_period');
         return Nomination::getNonWinningNominationsByPeriod($currPeriod);
     }
 
@@ -237,7 +237,7 @@ class NominationFactory {
      */
     public static function getNonWinningNominationsByPeriod($period)
     {
-        $db = Nomination::getDb();
+        $db = new PHPWS_DB('plm_nomination');
 
         $db->addWhere('period', $period);
         $db->addWhere('winner', NULL);
@@ -264,7 +264,7 @@ class NominationFactory {
      */
     public static function getWinningNominations()
     {
-        $currPeriod = PHPWS_Settings::get('plm', 'current_period');
+        $currPeriod = PHPWS_Settings::get('nomination', 'current_period');
         return Nomination::getWinningNominationsByPeriod($currPeriod);
     }
 
@@ -275,14 +275,14 @@ class NominationFactory {
      */
     public static function getWinningNominationsByPeriod($period)
     {
-        $db = Nomination::getDb();
+        $db = new PHPWS_DB('plm_nomination');
 
         $db->addWhere('period', $period);
         $db->addWhere('winner', !NULL);
         $result = $db->select();
 
         if(PHPWS_Error::logIfError($result)){
-            PHPWS_Core::initModClass('plm', 'exception/DatabaseException.php');
+            PHPWS_Core::initModClass('nomination', 'exception/DatabaseException.php');
             throw new DatabaseException($result->toString());
         }
         // Plug info into objects

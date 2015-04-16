@@ -136,8 +136,10 @@ class PLM_Doc {
         $title = array_pop($title);
         $sploded = explode('.', $title);
         $mimetype = self::$mimeTypes[$sploded[sizeof($sploded)-1]];
+	$ext = PHPWS_File::getFileExtension($result['name']);
+	$file_name = $person->first_name . '-' . $person->last_name . '.' . $ext;
         header('Content-type: '.$mimetype);
-        header('Content-Disposition: attachment; filename="' . $result['name'] . '"');
+        header('Content-Disposition: attachment; filename="' . $file_name . '"');
         readfile($result['name']);
         exit;
     }

@@ -8,7 +8,7 @@
  * @author Robert Bost <bostrt at gmail dot com>
  */
 
-PHPWS_Core::initModClass('plm', 'othermenu/SubMenu.php');
+PHPWS_Core::initModClass('nomination', 'othermenu/SubMenu.php');
 
 class OtherMenu extends SubMenu
 {

@@ -1,6 +1,6 @@
 <?php
 
-PHPWS_Core::initModClass('plm', 'NominationDocument.php');
+PHPWS_Core::initModClass('nomination', 'NominationDocument.php');
 
 /**
  * DocumentFactory
@@ -25,12 +25,12 @@ class DocumentFactory {
             throw new InvalidArgumentException('Missing ID.');
         }
 
-        $db = new PHPWS_DB('plm_document');
+        $db = new PHPWS_DB('nomination_document');
         $db->addWhere('id', $id);
         $result = $db->select('row');
 
         if (PHPWS_Error::logIfError($result)) {
-            PHPWS_Core::initModClass('plm', 'exception/DatabaseException.php');
+            PHPWS_Core::initModClass('nomination', 'exception/DatabaseException.php');
             throw new DatabaseException($result->toString('No document found in DB.'));
         }
 
@@ -53,7 +53,7 @@ class DocumentFactory {
 
     public static function save(NominationDocument $doc)
     {
-        $db = new PHPWS_DB('plm_document');
+        $db = new PHPWS_DB('nomination_document');
 
         $db->addValue('nomination_id', $doc->getNomination()->getId());
         $db->addValue('uploaded_by', $doc->getUploadedBy());

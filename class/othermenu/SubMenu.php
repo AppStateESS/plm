@@ -1,6 +1,6 @@
 <?php
 
-PHPWS_Core::initModClass('plm', 'othermenu/MenuItem.php');
+PHPWS_Core::initModClass('nomination', 'othermenu/MenuItem.php');
 
 class SubMenu extends MenuItem implements arrayaccess 
 {

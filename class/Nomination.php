@@ -29,7 +29,7 @@ class Nomination extends PLM_Model
     public $added_on;
     public $updated_on;
 
-    public static function getDb()
+    public function getDb()
     {
         return new PHPWS_DB(NOMINATION_TABLE);
     }
@@ -357,7 +357,7 @@ class Nomination extends PLM_Model
      * @return array - Return an array representation of a Nomination
      */
     public static function getByNominatorUnique_Id($unique_id){
-        $db = Nomination::getDb();
+        $db = new PHPWS_DB(NOMINATION_TABLE);
 
         $db->addJoin('left', 'plm_nomination', 'plm_nominator', 'nominator_id', 'id');
         $db->addWhere('plm_nominator.unique_id', $unique_id);
@@ -426,7 +426,7 @@ class Nomination extends PLM_Model
      */
     public static function getByReferenceUnique_Id($unique_id)
     {
-        $db = self::getDb();
+        $db = new PHPWS_DB(NOMINATION_TABLE);
         $db->addTable('plm_reference');
         $db->addWhere('reference_id_1', 'plm_reference.id', NULL, 'or', 'ref');
         $db->addWhere('reference_id_2', 'plm_reference.id', NULL, 'or', 'ref');
@@ -490,7 +490,7 @@ class Nomination extends PLM_Model
      */
     public static function getNonWinningNominationsByPeriod($period)
     {
-        $db = Nomination::getDb();
+        $db = new PHPWS_DB(NOMINATION_TABLE);
         
         $db->addWhere('period', $period);
         $db->addWhere('winner', NULL);
@@ -528,7 +528,7 @@ class Nomination extends PLM_Model
      */
     public static function getWinningNominationsByPeriod($period)
     {
-        $db = Nomination::getDb();
+        $db = new PHPWS_DB(NOMINATION_TABLE);
         
         $db->addWhere('period', $period);
         $db->addWhere('winner', !NULL);
@@ -553,7 +553,7 @@ class Nomination extends PLM_Model
      */
     public static function getByNominatorId($id)
     {
-        $db = Nomination::getDb();
+        $db = new PHPWS_DB(NOMINATION_TABLE);
         
         $db->addWhere('nominator_id', $id);
         $result = $db->getObjects('Nomination');
@@ -574,7 +574,7 @@ class Nomination extends PLM_Model
      */
     public static function getByReferenceId($id)
     {
-        $db = Nomination::getDb();
+        $db = new PHPWS_DB(NOMINATION_TABLE);
         
         $db->addWhere('reference_id_1', $id, NULL, 'OR');
         $db->addWhere('reference_id_2', $id, NULL, 'OR');
@@ -607,7 +607,7 @@ class Nomination extends PLM_Model
     {
         PHPWS_Core::initModClass('plm', 'Period.php');
 
-        $db = self::getDb();
+        $db = new PHPWS_DB(NOMINATION_TABLE);
         $db->addWhere('nominee_id', $id);
         $db->addWhere('period', Period::getCurrentPeriodYear());
         

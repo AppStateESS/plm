@@ -1,9 +1,9 @@
 <?php
 
-PHPWS_Core::initModClass('plm', 'Context.php');
-PHPWS_Core::initModClass('plm', 'view/NominationNotificationView.php');
+PHPWS_Core::initModClass('nomination', 'Context.php');
+PHPWS_Core::initModClass('nomination', 'view/NominationNotificationView.php');
 // Go ahead and init this class, used in all admin views
-PHPWS_Core::initModClass('plm', 'exception/PermissionException.php');
+PHPWS_Core::initModClass('nomination', 'exception/PermissionException.php');
 
 abstract class NominationMod
 {
@@ -29,7 +29,7 @@ abstract class NominationMod
         }
         // Execute a command and redirect to it's after view
         else if(!empty($_POST)){
-            PHPWS_Core::initModClass('plm', 'CommandFactory.php');
+            PHPWS_Core::initModClass('nomination', 'CommandFactory.php');
 
             $this->context = new Context($_POST);
 
@@ -52,7 +52,7 @@ abstract class NominationMod
                 NQ::simple('nomination', NOMINATION_ERROR, $e->getMessage());
             }
         }
-        PHPWS_Core::initModClass('plm', 'ViewFactory.php');
+        PHPWS_Core::initModClass('nomination', 'ViewFactory.php');
 
         /* Show any notifications */
         $nv = new NominationNotificationView();

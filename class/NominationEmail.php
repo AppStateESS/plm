@@ -10,8 +10,8 @@
  * @package nomination
  */
 
-PHPWS_Core::initModClass('plm', 'exception/DatabaseException.php');
-PHPWS_Core::initModClass('plm', 'Period.php');
+PHPWS_Core::initModClass('nomination', 'exception/DatabaseException.php');
+PHPWS_Core::initModClass('nomination', 'Period.php');
 PHPWS_Core::initCoreClass('Mail.php');
 
 // Abbreviated NominationActor names
@@ -47,7 +47,7 @@ class NominationEmail {
         $this->subject = $subject;
         $this->message = $message;
         $this->messageType = $msgType;
-        $this->from    = PHPWS_Settings::get('plm', 'email_from_address');
+        $this->from    = PHPWS_Settings::get('nomination', 'email_from_address');
     }
 
     public function send()
@@ -76,18 +76,18 @@ class NominationEmail {
         switch($msg->receiver_type)
         {
             case SHORT_Reference:
-                PHPWS_Core::initModClass('plm', 'Reference.php');
-                $db = new PHPWS_DB('plm_reference');
+                PHPWS_Core::initModClass('nomination', 'Reference.php');
+                $db = new PHPWS_DB('nomination_reference');
                 $obj = new Reference();
                 break;
             case SHORT_Nominator:
-                PHPWS_Core::initModClass('plm', 'Nominator.php');
-                $db = new PHPWS_DB('plm_nominator');
+                PHPWS_Core::initModClass('nomination', 'Nominator.php');
+                $db = new PHPWS_DB('nomination_nominator');
                 $obj = new Nominator();
                 break;
             case SHORT_Nominee:
-                PHPWS_Core::initModClass('plm', 'Nominee.php');
-                $db = new PHPWS_DB('plm_nominee');
+                PHPWS_Core::initModClass('nomination', 'Nominee.php');
+                $db = new PHPWS_DB('nomination_nominee');
                 $obj = new Nominee();
                 break;
         }
@@ -97,7 +97,7 @@ class NominationEmail {
         $result = $db->loadObject($obj);
 
         if(PHPWS_Error::logIfError($result)){
-            PHPWS_Core::initModClass('plm', 'exception/DatabaseException.php');
+            PHPWS_Core::initModClass('nomination', 'exception/DatabaseException.php');
             throw new DatabaseException($result->toString());
         }
         $obj = array($obj);
@@ -125,10 +125,10 @@ class NominationEmail {
         fclose($fd);
 
         /*
-        PHPWS_Core::initModClass('plm', 'Nominee.php');
-        PHPWS_Core::initModClass('plm', 'Nominator.php');
-        PHPWS_Core::initModClass('plm', 'Reference.php');
-        PHPWS_Core::initModClass('plm', 'EmailMessage.php');
+        PHPWS_Core::initModClass('nomination', 'Nominee.php');
+        PHPWS_Core::initModClass('nomination', 'Nominator.php');
+        PHPWS_Core::initModClass('nomination', 'Reference.php');
+        PHPWS_Core::initModClass('nomination', 'EmailMessage.php');
 
         $now = mktime();
 
@@ -214,59 +214,59 @@ class NominationEmail {
     {
         switch($list){
             case 'ALLNOM':  // All Nominators
-                //PHPWS_Core::initModClass('plm', 'Nominator.php');
-                //$db = new PHPWS_DB('plm_nominator');
+                //PHPWS_Core::initModClass('nomination', 'Nominator.php');
+                //$db = new PHPWS_DB('nomination_nominator');
                 //$results = $db->getObjects('Nominator');
-                $db = new PHPWS_DB('plm_nomination');
+                $db = new PHPWS_DB('nomination_nomination');
                 $db->addColumn('nominator_email');
                 $results = $db->select('col');
                 break;
             case 'NOMCPL':  // Nominators with complete nomination
-                //PHPWS_Core::initModClass('plm', 'Nominator.php');
-                //$db = new PHPWS_DB('plm_nominator');
-                //$db->addTable('plm_nomination');
-                //$db->addWhere('plm_nomination.nominator_id', 'plm_nominator.id');
-                //$db->addWhere('plm_nomination.completed', 1);
+                //PHPWS_Core::initModClass('nomination', 'Nominator.php');
+                //$db = new PHPWS_DB('nomination_nominator');
+                //$db->addTable('nomination_nomination');
+                //$db->addWhere('nomination_nomination.nominator_id', 'nomination_nominator.id');
+                //$db->addWhere('nomination_nomination.completed', 1);
                 //$results = $db->getObjects('Nominator');
-                $db = new PHPWS_DB('plm_nomination');
+                $db = new PHPWS_DB('nomination_nomination');
                 $db->addColumn('nominator_email');
                 $db->addWhere('complete', 1);
                 $results = $db->select('col');
                 break;
             case 'NOMINC':  // Nominators with incomplete nomination
-                //PHPWS_Core::initModClass('plm', 'Nominator.php');
-                //$db = new PHPWS_DB('plm_nominator');
-                //$db->addTable('plm_nomination');
-                //$db->addWhere('plm_nomination.nominator_id', 'plm_nominator.id');
-                //$db->addWhere('plm_nomination.completed', 0);
+                //PHPWS_Core::initModClass('nomination', 'Nominator.php');
+                //$db = new PHPWS_DB('nomination_nominator');
+                //$db->addTable('nomination_nomination');
+                //$db->addWhere('nomination_nomination.nominator_id', 'nomination_nominator.id');
+                //$db->addWhere('nomination_nomination.completed', 0);
                 //$results = $db->getObjects('Nominator');
-                $db = new PHPWS_DB('plm_nomination');
+                $db = new PHPWS_DB('nomination_nomination');
                 $db->addColumn('nominator_email');
                 $db->addWhere('complete', 0);
                 $results = $db->select('col');
                 break;
             case 'REFNON':  // References that need to upload a statement
-                //PHPWS_Core::initModClass('plm', 'Reference.php');
-                //$db = new PHPWS_DB('plm_reference');
+                //PHPWS_Core::initModClass('nomination', 'Reference.php');
+                //$db = new PHPWS_DB('nomination_reference');
                 //$db->addWhere('doc_id', NULL);
                 //$results = $db->getObjects('Reference');
-                $db = new PHPWS_DB('plm_nomination');
-                $db->addTable('plm_reference');
-                $db->addColumn('plm_reference.email');
-                $db->addWhere('plm_nomination.complete', 0);
-                $db->addWhere('plm_nomination.id', 'plm_reference.nomination_id');
-                $db->addWhere('plm_reference.doc_id', 'NULL');
+                $db = new PHPWS_DB('nomination_nomination');
+                $db->addTable('nomination_reference');
+                $db->addColumn('nomination_reference.email');
+                $db->addWhere('nomination_nomination.complete', 0);
+                $db->addWhere('nomination_nomination.id', 'nomination_reference.nomination_id');
+                $db->addWhere('nomination_reference.doc_id', 'NULL');
                 $results = $db->select('col');
                 break;
             case 'NOMINE':  // Nominees with complete nominations
-                //PHPWS_Core::initModClass('plm', 'Nominee.php');
-                //$db = new PHPWS_DB('plm_nominee');
-                //$db->addTable('plm_nomination');
-                //$db->addWhere('plm_nomination.nominee_id', 'plm_nominee.id');
-                //$db->addWhere('plm_nomination.completed', 1);
+                //PHPWS_Core::initModClass('nomination', 'Nominee.php');
+                //$db = new PHPWS_DB('nomination_nominee');
+                //$db->addTable('nomination_nomination');
+                //$db->addWhere('nomination_nomination.nominee_id', 'nomination_nominee.id');
+                //$db->addWhere('nomination_nomination.completed', 1);
                 //$results = $db->getObjects('Nominee');
-                $db = new PHPWS_DB('plm_nomination');
-                $db->addColumn('plm_nomination.email');
+                $db = new PHPWS_DB('nomination_nomination');
+                $db->addColumn('nomination_nomination.email');
                 $db->addWhere('complete', 1);
                 $results = $db->select('col');
                 break;
@@ -293,13 +293,13 @@ class NominationEmail {
         $vars['CURRENT_DATE'] = date('F j, Y');
         $vars['NOMINATOR_NAME'] = $nom->getNominatorFullName(); // NB: This could be an empty string for self-nominations
         $vars['NOMINEE_NAME'] = $nom->getFullName();
-        $vars['AWARD_NAME'] = PHPWS_Settings::get('plm', 'award_title');
+        $vars['AWARD_NAME'] = PHPWS_Settings::get('nomination', 'award_title');
         $period = Period::getCurrentPeriod();
         $vars['END_DATE'] = $period->getReadableEndDate();
         //$vars['EDIT_LINK'] = $nominator->getEditLink(); //TODO nominator editing
 
-        $vars['SIGNATURE'] = PHPWS_Settings::get('plm', 'signature');
-        $vars['SIG_POSITION'] = PHPWS_Settings::get('plm', 'sig_position');
+        $vars['SIGNATURE'] = PHPWS_Settings::get('nomination', 'signature');
+        $vars['SIG_POSITION'] = PHPWS_Settings::get('nomination', 'sig_position');
 
         $list = array($nom->getNominatorEmail());
         $subject = $vars['AWARD_NAME'];
@@ -315,7 +315,7 @@ class NominationEmail {
         $vars = array();
 
         $vars['NAME'] = $nominator->getFullName();
-        $vars['AWARD_NAME'] = PHPWS_Settings::get('plm', 'award_title');
+        $vars['AWARD_NAME'] = PHPWS_Settings::get('nomination', 'award_title');
         $vars['NOMINEE_NAME'] = $nominee->getFullName();
         $period = Period::getCurrentPeriod();
         $vars['END_DATE'] = $period->getReadableEndDate();
@@ -336,7 +336,7 @@ class NominationEmail {
 
         $vars['NAME'] = $nominator->getFullname();
         $vars['NOMINEE_NAME'] = $nominee->getFullName();
-        $vars['AWARD_NAME'] = PHPWS_Settings::get('plm', 'award_title');
+        $vars['AWARD_NAME'] = PHPWS_Settings::get('nomination', 'award_title');
 
         $list = array($nominator);
         $subject = 'Nomination Removal Request Approved';
@@ -368,14 +368,14 @@ class NominationEmail {
         $period = Period::getCurrentPeriod();
         $vars['END_DATE'] = $period->getReadableEndDate();
         $vars['REF_EDIT_LINK'] = $reference->getEditLink();
-        $vars['AWARD_TITLE'] = PHPWS_Settings::get('plm', 'award_title');
+        $vars['AWARD_TITLE'] = PHPWS_Settings::get('nomination', 'award_title');
 
         // These have really stupid defaults, and don't need to be in settings.
-        //$vars['SIGNATURE'] = PHPWS_Settings::get('plm', 'signature');
-        //$vars['SIG_POSITION'] = PHPWS_Settings::get('plm', 'sig_position');
+        //$vars['SIGNATURE'] = PHPWS_Settings::get('nomination', 'signature');
+        //$vars['SIG_POSITION'] = PHPWS_Settings::get('nomination', 'sig_position');
 
         $list = array($reference->getEmail());
-        $subject = 'Reference Request: ' . PHPWS_Settings::get('plm', 'award_title');
+        $subject = 'Reference Request: ' . PHPWS_Settings::get('nomination', 'award_title');
         $msg = PHPWS_Template::process($vars, 'nomination', 'email/reference_new_nomination.tpl');
         $msgType = 'NEWNOM';
         $email = new NominationEmail($list, $subject, $msg, $msgType);
@@ -389,13 +389,13 @@ class NominationEmail {
         $vars['CURRENT_DATE'] = date('F j, Y');
         $vars['NAME'] = $reference->getFullName();
         $vars['NOMINEE_NAME'] = $nominee->getFullName();
-        $vars['AWARD_NAME'] = PHPWS_Settings::get('plm', 'award_title');
+        $vars['AWARD_NAME'] = PHPWS_Settings::get('nomination', 'award_title');
         $period = Period::getCurrentPeriod();
         $vars['END_DATE'] = $period->getReadableEndDate();
         $vars['EDIT_LINK'] = $reference->getEditLink();
 
         $list = array($reference);
-        $subject = PHPWS_Settings::get('plm', 'award_title');
+        $subject = PHPWS_Settings::get('nomination', 'award_title');
         $msg = PHPWS_Template::process($vars, 'nomination', 'email/reference_letter_submit.tpl');
         $msgType = 'REFUPL';
 
@@ -420,7 +420,7 @@ class NominationEmail {
         $vars['REF_EDIT_LINK'] = $reference->getEditLink();
 
         $list = array($reference);
-        $subject = PHPWS_Settings::get('plm', 'award_title');
+        $subject = PHPWS_Settings::get('nomination', 'award_title');
         $msg = PHPWS_Template::process($vars, 'nomination', 'email/reference_new_nomination.tpl');
         $msgType = 'UPDNOM';
 

@@ -1,6 +1,6 @@
 <?php
 
-PHPWS_Core::initModClass('plm', 'Reference.php');
+PHPWS_Core::initModClass('nomination', 'Reference.php');
 
 /**
  * ReferenceFactory
@@ -14,7 +14,7 @@ class ReferenceFactory {
 
     public static function save(Reference $ref)
     {
-        $db = new PHPWS_DB('plm_reference');
+        $db = new PHPWS_DB('nomination_reference');
 
         $db->addValue('nomination_id', $ref->getNominationId());
         $db->addValue('first_name', $ref->getFirstName());
@@ -53,14 +53,14 @@ class ReferenceFactory {
      */
     public static function getByUniqueId($uniqueId){
 
-        $db = new PHPWS_DB('plm_reference');
+        $db = new PHPWS_DB('nomination_reference');
 
         $db->addWhere('unique_id', $uniqueId);
 
         $result = $db->select('row');
 
         if(PHPWS_Error::logIfError($result)){
-            PHPWS_Core::initModClass('plm', 'exception/DatabaseException.php');
+            PHPWS_Core::initModClass('nomination', 'exception/DatabaseException.php');
             throw new DatabaseException($result->toString());
         }
 
@@ -92,14 +92,14 @@ class ReferenceFactory {
      */
     public static function getByNominationId($Id){
 
-        $db = new PHPWS_DB('plm_reference');
+        $db = new PHPWS_DB('nomination_reference');
 
         $db->addWhere('nomination_id', $Id);
 
         $results = $db->select();
 
         if(PHPWS_Error::logIfError($results)){
-            PHPWS_Core::initModClass('plm', 'exception/DatabaseException.php');
+            PHPWS_Core::initModClass('nomination', 'exception/DatabaseException.php');
             throw new DatabaseException($results->toString());
         }
 

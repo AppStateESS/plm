@@ -1,20 +1,20 @@
 <?php
 
 /**
- * Nomination User Status
+ * PLM User Status
  * Used to quickly determine proper permissioning and displaying the login
  * stuff at the top.  Also used for admins that are masquerading as other
  * user types.
- *
+ * 
  * This is a stripped down version of SDR's UserStatus.php
  *
  * @author Jeff Tickle <jtickle at tux dot appstate dot edu>
  */
 
-define('NOMINATION_USERSTATUS_GUEST', 'guest');
-define('NOMINATION_USERSTATUS_USER',  'user');
-define('NOMINATION_USERSTATUS_COMMITTEE_MEMBER', 'committee_member');
-define('NOMINATION_USERSTATUS_ADMIN', 'admin');
+define('PLM_USERSTATUS_GUEST', 'guest');
+define('PLM_USERSTATUS_USER',  'user');
+define('PLM_USERSTATUS_COMMITTEE_MEMBER', 'committee_member');
+define('PLM_USERSTATUS_ADMIN', 'admin');
 
 class UserStatus
 {
@@ -24,7 +24,7 @@ class UserStatus
 	public static function isAdmin()
 	{
 		return Current_User::isLogged() &&
-		Current_User::isUnrestricted('nomination');
+		Current_User::isUnrestricted('plm');
 	}
 
     public static function isCommitteeMember()
@@ -40,11 +40,11 @@ class UserStatus
             // If not a member of any group then NO!
             return False;
         } else {
-            // Check member's groups for nomination_committee
+            // Check member's groups for plm_committee
             foreach($groups as $group_id){
                 PHPWS_Core::initModClass('users', 'Group.php');
                 $group = new PHPWS_Group($group_id);
-                if($group->getName() == 'nomination_committee'){
+                if($group->getName() == 'plm_committee'){
                     return True;
                 }
             }
@@ -55,7 +55,7 @@ class UserStatus
 	public static function isUser()
 	{
 		return (Current_User::isLogged() &&
-		!Current_User::isUnrestricted('nomination'));
+		!Current_User::isUnrestricted('plm'));
 	}
 
 	public static function isGuest()
@@ -69,27 +69,28 @@ class UserStatus
 		$user = Current_User::getDisplayName();
 
 		if(UserStatus::isGuest()) {
-			$vars['LOGGED_IN_AS'] = dgettext('nomination', 'Viewing as Guest');
+			$vars['LOGGED_IN_AS'] = dgettext('plm', 'Viewing as Guest');
             $vars['LOGIN_LINK']   = UserStatus::getLoginLink();
 		} else {
-			$vars['LOGGED_IN_AS'] = sprintf(dgettext('nomination', 'Welcome, %s!'), $user);
+			$vars['LOGGED_IN_AS'] = sprintf(dgettext('plm', 'Welcome, %s!'), $user);
 			$vars['LOGOUT_LINK']  = UserStatus::getLogoutLink();
 		}
 
-		return PHPWS_Template::process($vars, 'nomination', 'UserStatus.tpl');
+		return PHPWS_Template::process($vars, 'plm', 'UserStatus.tpl');
 	}
 
     public static function getLoginLink()
     {
         // Support for co-sign
-        $auth = Current_User::getAuthorization();
-        return '<a href="'.$auth->login_link.'"><img class="login-icon" src="'.PHPWS_SOURCE_HTTP.'mod/nomination/img/tango/actions/edit-redo.png"/>Member Login</a>';
+        $loginLink = "/login";
+        return '<a href="'.$loginLink.'"><img class="login-icon" src="'.PHPWS_SOURCE_HTTP.'mod/plm/img/tango/actions/edit-redo.png"/>Member Login</a>';
     }
 
 	public static function getLogoutLink()
 	{
-	    $auth = Current_User::getAuthorization();
-	    return '<a href="'.$auth->logout_link.'">Logout</a>';
+        // TODO: Find out why the code below doesn't work in production
+		//$auth = Current_User::getAuthorization();
+		return '<a href="'.PHPWS_SOURCE_HTTP.'index.php?module=users&action=user&command=logout">Logout</a>';
 	}
 }
 

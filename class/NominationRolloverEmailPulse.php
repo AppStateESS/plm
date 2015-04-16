@@ -25,11 +25,11 @@ class NominationRolloverEmailPulse extends ScheduledPulse
 
     public function execute()
     {
-        PHPWS_Core::initModClass('plm', 'NominationEmail.php');
+        PHPWS_Core::initModClass('nomination', 'NominationEmail.php');
 
         // This is the worst hack ever
         $rollover_receiver[] = new RolloverReceiver();
-        $subject = PHPWS_Settings::get('plm', 'award_title').' | Rollover';
+        $subject = PHPWS_Settings::get('nomination', 'award_title').' | Rollover';
         $message = "It is time to rollover to the next nomination period!";
         $mail = new Nomination_Email($rollover_receiver, $subject, $message);
         $mail->send();
@@ -69,7 +69,7 @@ class RolloverReceiver
 {
     public function getEmail()
     {
-        return PHPWS_Settings::get('plm', 'rollover_email');
+        return PHPWS_Settings::get('nomination', 'rollover_email');
     }
 }
 

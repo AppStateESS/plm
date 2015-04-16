@@ -32,15 +32,12 @@ abstract class AbstractFactory
             $this->throwIllegal($name);
         }
 
-        $path = "{$dir}/{$name}.php";
-        
-        //try{
-            PHPWS_Core::initModClass('plm', $path);
-            /*
+        try{
+            PHPWS_Core::initModClass('plm', "{$dir}/{$name}.php");
         } catch(Exception $e){
-            $this->throwNotFound($path);
+            $this->throwNotFound($name);
         }
-        */
+        
         return $name;
     }
 }

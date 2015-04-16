@@ -33,7 +33,7 @@ class NomineeView extends PlemmView {
         $tpl['YEARS']       = $nominee->getYears();
         $tpl['EMAIL']       = $nominee->getEmailLink();
 
-        $db = Nomination::getDb();
+        $db = new PHPWS_DB('plm_nomination');
         $db->addWhere('nominee_id', $nominee->id);
         $db->addOrder('winner desc');
         $results = $db->getObjects('Nomination');
